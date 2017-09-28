@@ -1,5 +1,8 @@
 <template>
   <div>
+<!--    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>-->
     <transition name="router-fade" mode="out-in">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
@@ -9,17 +12,15 @@
       <router-view v-if="!$route.meta.keepAlive"></router-view>
     </transition>
     <svg-icon></svg-icon>
-    <home></home>
+    <!--<home></home>-->
   </div>
 </template>
 
 <script>
   import svgIcon from './components/common/svg';
-  import home from './page/home/home';
   export default {
     components:{
       svgIcon,
-      home
     },
   }
 

@@ -24,7 +24,7 @@ Vue.use(VueRouter)
 
 /*如何在返回时返回到上次滚动位置http://m.blog.csdn.net/zjl516088421/article/details/77937440*/
 const router = new VueRouter({
-  routerPages,
+  routes:routerPages,
   mode: routerMode,
   strict: process.env.NODE_ENV !== 'production',
   scrollBehavior (to, from, savedPosition) {
