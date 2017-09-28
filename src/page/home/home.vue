@@ -1,11 +1,22 @@
 <template>
 <div>
+  <head-top :signin-up="home"></head-top>
 <span>9999</span>
 </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  import headTop from '../../components/header/head'
+  export default {
+    data(){
+      return{
+        home:'首页'
+      }
+    },
+    components:{
+      headTop
+    }
+  }
 </script>
 <style lang="scss" scoped>
   @import '../../style/mixin';
