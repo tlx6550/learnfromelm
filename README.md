@@ -25,3 +25,6 @@ fetch：对获取数据的方式进行包装整理，返回一个promis对象
 getData：接口数据获取
 新增mint-ui框架
 新增loading组件，优化加载体验
+head组件 注册路由暂时修改
+新增登陆接口
+
