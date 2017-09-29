@@ -19,3 +19,7 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+env：配置真实线上接口地址
+fetch：对获取数据的方式进行包装整理，返回一个promis对象
+getData：接口数据获取

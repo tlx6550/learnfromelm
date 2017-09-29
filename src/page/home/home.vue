@@ -37,12 +37,16 @@
       </li>
     </ul>
   </section>
+  <div class="loading-container" v-show="!showFlag.length">
+    <loading></loading>
+  </div>
 </div>
 </template>
 
 <script type="text/ecmascript-6">
   import headTop from '../../components/header/head'
-  import {groupcity} from '../../service/getData'
+  import loading from 'components/common/loading/loading'
+  import {cityGuess, hotcity, groupcity} from '../../service/getData'
   export default {
     data(){
       return{
@@ -50,13 +54,23 @@
         guessCity: '',   //当前城市
         guessCityid: '', //当前城市id
         hotcity: [],     //热门城市列表
-        groupcity: {},   //所有城市列表
+        groupcity: {}, //所有城市列表
       }
     },
-    mounted(){
+    created(){
       //获取所有城市
       groupcity().then(res =>{
         this.groupcity = res;
+      })
+      // 获取当前城市
+      cityGuess().then(res => {
+        this.guessCity = res.name;
+        this.guessCityid = res.id;
+      })
+
+      //获取热门城市
+      hotcity().then(res => {
+        this.hotcity = res;
       })
     },
     methods:{
@@ -68,6 +82,7 @@
       //将获取的数据按照A-Z字母开头排序
       sortgroupcity(){
         let sortobj = {};
+
         for (let i = 65; i <= 90; i++) {
           //fromCharCode() 可接受一个指定的 Unicode 值，然后返回一个[字符串!!!]。
          /* console.log(this.groupcity['A']) object可以通过类似数组的索引方式获取到数据*/
@@ -75,11 +90,21 @@
             sortobj[String.fromCharCode(i)] = this.groupcity[String.fromCharCode(i)];
           }
         }
-        return sortobj
+       return sortobj
+      },
+      showFlag(){
+        let ret = [];
+        Object.keys(this.sortgroupcity).forEach((item)=>{
+          ret.push(item)
+        })
+        return ret;
       }
     },
+    watch:{
+    },
     components:{
-      headTop
+      headTop,
+      loading
     }
   }
 </script>
@@ -167,6 +192,11 @@
       }
     }
   }
-
+.loading-container{
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
 </style>
 

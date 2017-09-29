@@ -5,7 +5,10 @@ import App from './App'
 import './config/rem'
 // 使用路由组件
 import VueRouter from 'vue-router'
-
+/*使用Mint Ui*/
+import Mint from 'mint-ui';
+import 'mint-ui/lib/style.css'
+Vue.use(Mint);
 //引入定义的路由页面
 import routerPages from './router/index'
 
