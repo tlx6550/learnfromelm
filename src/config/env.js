@@ -6,7 +6,7 @@
  * imgBaseUrl: 图片所在域名地址
  *
  */
-let baseUrl = '';
+let baseUrl = 'http://cangdu.org:8001';
 let routerMode = 'history';
 let imgBaseUrl = 'http://images.cangdu.org/';
 if (process.env.NODE_ENV == 'development') {
