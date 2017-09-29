@@ -23,3 +23,5 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 env：配置真实线上接口地址
 fetch：对获取数据的方式进行包装整理，返回一个promis对象
 getData：接口数据获取
+新增mint-ui框架
+新增loading组件，优化加载体验
