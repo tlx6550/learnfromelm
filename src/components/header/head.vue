@@ -24,11 +24,16 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapState, mapActions} from 'vuex'
 export default {
   data(){
     return{
 
     }
+  },
+  created(){
+    //获取用户信息
+    this.getUserInfo();
   },
   props:{
     signinUp:{
@@ -45,10 +50,15 @@ export default {
     }
   },
   computed: {
-    userInfo() {
-      return ''
-    }
+    ...mapState([
+      'userInfo'
+    ])
   },
+  methods:{
+    ...mapActions([
+      'getUserInfo'
+    ])
+  }
 /*  props: ['signinUp', 'headTitle', 'goBack'],*/
 }
 </script>
@@ -59,14 +69,15 @@ export default {
     background-color: $blue;
     position: fixed;
     z-index: 100;
+    margin-bottom: 1rem;
     left: 0;
     top: 0;
-    @include wh(100%, 1.95rem);
+    @include wh(100%, 2.5rem);
   }
   .head_goback{
     left: 0.4rem;
     @include wh(0.6rem, 1rem);
-    line-height: 2.2rem;
+    line-height: 2.5rem;
     margin-left: .4rem;
   }
   .head_login{

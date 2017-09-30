@@ -2,13 +2,14 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import store from './store/'
 import './config/rem'
 // 使用路由组件
 import VueRouter from 'vue-router'
-/*使用Mint Ui*/
-import Mint from 'mint-ui';
-import 'mint-ui/lib/style.css'
-Vue.use(Mint);
+/*使用YDUI Ui*/
+import YDUI from 'vue-ydui';
+import 'vue-ydui/dist/ydui.px.css';
+Vue.use(YDUI);
 //引入定义的路由页面
 import routerPages from './router/index'
 
@@ -46,5 +47,6 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

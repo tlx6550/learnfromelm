@@ -12,16 +12,17 @@ export default async(url = '',data= {},type = 'GET',method = 'fetch') =>{
   type = type.toUpperCase();
   url = baseUrl + url;
   //这里的data对象就是例如 type:'group'
-  if(type == 'GET'){
+  if(type == 'GET') {
     let dataStr = '';
-    Object.keys(data).forEach(key =>{
+    Object.keys(data).forEach(key => {
       dataStr += key + '=' + data[key] + '&';
     })
-    if (dataStr !== ''){
+    if (dataStr !== '') {
       //从起始索引号提取字符串中指定数目的字符。
-      dataStr = dataStr.substr(0,dataStr.lastIndexOf('&'))
+      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'))
       url = url + '?' + dataStr;
     }
+  }
     //传统 Ajax 指的是 XMLHttpRequest（XHR），未来现在已被 Fetch 替代。
     // https://segmentfault.com/a/1190000003810652
     if (window.fetch && method == 'fetch'){
@@ -42,20 +43,20 @@ export default async(url = '',data= {},type = 'GET',method = 'fetch') =>{
       /*prop 需被定义或修改的属性名。
         descriptor 需被定义或修改的属性的描述符。*/
       if(type == 'POST'){
-        Object.defineProperties(requestConfig,'body',{
+        Object.defineProperty(requestConfig,'body',{
           value: JSON.stringify(data)
         })
       }
       try{
         //写异步代码就像写同步代码一样爽。await 后面可以跟 Promise 对象，表示等待 Promise resolve() 才会继续向下执行，如果 Promise 被 reject() 或抛出异常则会被外面的 try...catch 捕获。
-        const response = await fetch(url,requestConfig);
+        const response = await fetch(url, requestConfig);
         const responseJson = await response.json();
         return responseJson
-      }catch (error){
+      } catch (error) {
         throw new Error(error)
       }
-    }else{
-      return new Promise((resolve,reject)=>{
+    } else {
+      return new Promise((resolve, reject) => {
         let requestObj;
         if (window.XMLHttpRequest) {
           requestObj = new XMLHttpRequest();
@@ -67,6 +68,7 @@ export default async(url = '',data= {},type = 'GET',method = 'fetch') =>{
         if (type == 'POST') {
           sendData = JSON.stringify(data);
         }
+
         requestObj.open(type, url, true);
         requestObj.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         requestObj.send(sendData);
@@ -86,5 +88,4 @@ export default async(url = '',data= {},type = 'GET',method = 'fetch') =>{
         }
       })
     }
-  }
 }

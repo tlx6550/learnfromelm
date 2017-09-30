@@ -1,9 +1,9 @@
 import App from '../App'
-/*import home from 'page/home/home'*/
+import login from 'page/login/login'
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
-const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
+const forget = r => require.ensure([], () => r(require('../page/forget/forget')), 'forget')
+/*const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')*/
 // Vue.use(Router)
-
 
 export default [{
   path:'/',
@@ -21,6 +21,10 @@ export default [{
       path: '/login',
       component: login
     },
+    {
+      path: '/forget',
+      component: forget
+    }
   ]
 }]
 
