@@ -5,7 +5,7 @@
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">账号：</span>
-          <yd-input slot="right" required v-model="phoneNumber" max="11" @input="inputPhone" placeholder="请输入用户名"></yd-input>
+          <yd-input slot="right" required v-model="phoneNumber" regex="mobile"  @input="inputPhone" placeholder="请输入用户名"></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">旧密码：</span>

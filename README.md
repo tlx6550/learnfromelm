@@ -28,3 +28,6 @@ getData：接口数据获取
 head组件 注册路由暂时修改
 新增登陆接口
 
+header :mapState可以读取状态树状态
+mUtils：封装本地存储
+forget组件创建

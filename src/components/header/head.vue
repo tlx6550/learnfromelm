@@ -7,7 +7,7 @@
       <polyline points="12,18 4,9 12,0" style="fill:none;stroke:rgb(255,255,255);stroke-width:2"/>
     </svg>
   </section>
-  <router-link :to="'/login'" v-if="signinUp" class="head_login">
+  <router-link :to="userInfo? '/profile':'/login'" v-if="signinUp" class="head_login">
     <svg class="user_avatar" v-if="userInfo">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
     </svg>
@@ -24,7 +24,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapState, mapActions} from 'vuex'
+  import {mapGetters , mapActions} from 'vuex'
 export default {
   data(){
     return{
@@ -50,9 +50,15 @@ export default {
     }
   },
   computed: {
-    ...mapState([
+    ...mapGetters ([
       'userInfo'
     ])
+  },
+  mounted(){
+    setTimeout(()=>{
+      console.log(this.userInfo)
+    },1500)
+
   },
   methods:{
     ...mapActions([
