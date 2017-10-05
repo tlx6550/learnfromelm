@@ -9,7 +9,7 @@ const  matutaions = {
   },
   /*获取用户信息存入vuex*/
   [types.GET_USERINFO](state,info){
-    if (state.userInfo && (state.userInfo.username !== info.username)) {
+    /*if (state.userInfo && (state.userInfo.username !== info.username)) {
       return;
     };
     if (!state.login) {
@@ -19,7 +19,9 @@ const  matutaions = {
       state.userInfo = {...info};
     } else {
       state.userInfo = null;
-    }
+    }*/
+    state.userInfo = info;
+    state.login = true;
   }
 }
 export default matutaions

@@ -92,19 +92,16 @@
           //判读用户是否存在
           let exsis = await checkExsis(this.phoneNumber, 'mobile');
           if (exsis.message) {
-            this.showAlert = true;
-            this.alertText = exsis.message;
+            this.$dialog.alert({mes:exsis.message});
             return
           }else if(!exsis.is_exists) {
-            this.showAlert = true;
-            this.alertText = '您输入的手机号尚未绑定';
+            this.$dialog.alert({mes:'您输入的手机号尚未绑定'});
             return
           }
           //发送短信验证码
           let res = await mobileCode(this.phoneNumber);
           if (res.message) {
-            this.showAlert = true;
-            this.alertText = res.message;
+            this.$dialog.alert({mes: res.message});
             return
           }
           this.validate_token = res.validate_token;

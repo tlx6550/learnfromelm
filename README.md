@@ -31,3 +31,7 @@ head组件 注册路由暂时修改
 header :mapState可以读取状态树状态
 mUtils：封装本地存储
 forget组件创建
+
+header:当切换或者刷新home页面，提交把用户信息存入vuex中
+从state读取用户信息（需优化，这里有异步操作）
+mutations暂时修改

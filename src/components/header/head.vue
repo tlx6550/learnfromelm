@@ -32,8 +32,7 @@ export default {
     }
   },
   created(){
-    //获取用户信息
-    this.getUserInfo();
+
   },
   props:{
     signinUp:{
@@ -55,15 +54,15 @@ export default {
     ])
   },
   mounted(){
-    setTimeout(()=>{
-      console.log(this.userInfo)
-    },1500)
-
+    //获取用户信息
+    this.getUserInfo();
+    //this.userInfo = getUser();
   },
   methods:{
     ...mapActions([
       'getUserInfo'
     ])
+
   }
 /*  props: ['signinUp', 'headTitle', 'goBack'],*/
 }
