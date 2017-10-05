@@ -25,14 +25,15 @@
 
 <script type="text/ecmascript-6">
   import {mapGetters , mapActions} from 'vuex'
+  import {getUser} from '../../service/getData'
 export default {
   data(){
     return{
-
+      userInfo:''
     }
   },
   created(){
-
+    this.userInfo = getUser();
   },
   props:{
     signinUp:{
@@ -49,14 +50,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters ([
+    /*此处优化为从create中获取*/
+   /* ...mapGetters ([
       'userInfo'
-    ])
+    ])*/
   },
   mounted(){
-    //获取用户信息
+    //提交mutations，并获取用户信息（这里不获取了，有异步操作）
     this.getUserInfo();
-    //this.userInfo = getUser();
   },
   methods:{
     ...mapActions([

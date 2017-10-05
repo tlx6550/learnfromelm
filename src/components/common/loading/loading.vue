@@ -24,5 +24,8 @@
       font-size: 14px;
       color: #ccc;
     }
+    & img{
+      display: inline-block;
+    }
   }
 </style>
