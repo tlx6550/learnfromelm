@@ -78,12 +78,12 @@ export default {
     margin-bottom: 1rem;
     left: 0;
     top: 0;
-    @include wh(100%, 2.5rem);
+    @include wh(100%, 1.95rem);
   }
   .head_goback{
     left: 0.4rem;
     @include wh(0.6rem, 1rem);
-    line-height: 2.5rem;
+    line-height: 2.6rem;
     margin-left: .4rem;
   }
   .head_login{
