@@ -11,7 +11,7 @@
           </yd-cell-group>
         <div>
           <p v-if="earn">用户名只能修改一次（5-24字符之间）</p>
-          <p class="unlikep" v-else>用户名长度在5到24位之间</p>
+          <p class="unlikep" v-if="!earn" >用户名长度在5到24位之间</p>
         </div>
         <div class="btn">
           <yd-button size="large" type="primary">提交</yd-button>
@@ -27,7 +27,7 @@
   export default {
   data(){
   return{
-    earn:'true',
+    earn:true,
     newUserName:''
   }
    },
@@ -43,7 +43,6 @@
        const valid = `${input.valid}`;
        if(valid){
          this.earn = false;
-         console.log(this.earn)
        }else{
          this.earn = true;
        }
@@ -73,6 +72,10 @@
     width:100%;
     padding:0 0.3rem;
     margin:0.5rem auto;
+    .unlikep{
+      @include sc(.58rem,$danger);
+      padding-top:.1rem;
+    }
     .setname-top{
       padding-top:.4rem;
       input{
@@ -93,10 +96,7 @@
         @include sc(.4rem,#666);
         padding:.4rem 0 1rem;
       }
-      .unlikep{
-        @include sc(.58rem,#ea3106);
-        padding-top:.1rem;
-      }
+
     }
     .reset{
       width:100%;
