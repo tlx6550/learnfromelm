@@ -5,13 +5,17 @@
     <section class="profile-info">
       <yd-cell-group>
         <yd-cell-item>
-          <span slot="left">头像</span>
+          <span slot="left">修改头像</span>
           <span slot="right">
-            <img class="profileinfopanel-upload" src="http://img1.imgtn.bdimg.com/it/u=1762973822,121126736&fm=214&gp=0.jpg" alt="">
+            <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
+            <img  v-if="userInfo" :src="imgBaseUrl + userInfo.avatar" class="headportrait-div-top">
+            <span class="headportrait-div-top" v-else>
+              <i class="fa fa-user-circle"></i>
+            </span>
           </span>
         </yd-cell-item>
 
-        <yd-cell-item arrow>
+        <yd-cell-item arrow type="link" href="/profile/setusername">
           <span slot="left">用户名</span>
           <span slot="right">{{username}}</span>
         </yd-cell-item>
@@ -34,7 +38,7 @@
       </yd-cell-group>
     </section>
     <section class="section-btn">
-      <yd-button size="large" type="danger" shape="circle">提交</yd-button>
+      <yd-button size="large" type="danger" shape="circle"  @click.native="exitlogin">退出登录</yd-button>
     </section>
   </div>
   </transition>
@@ -42,20 +46,83 @@
 
 <script type="text/ecmascript-6">
   import headTop from 'components/header/head'
+  import {baseUrl} from '../../../config/env'
+  import {imgBaseUrl} from '../../../config/env'
+  import {mapGetters,mapMutations} from 'vuex'
+  import {signout} from '../../../service/getData'
+  import {removeStore} from '../../../config/mUtils'
   export default {
   data(){
-  return{}
+    return{
+      username:'',    //用户名
+      avatar:'',      //用户头像
+      imgBaseUrl,
+      loginOutMsg:'',
+      that:''
+    }
    },
    created(){
+    this.that = this;
    },
    mounted(){
    },
    computed: {
+     ...mapGetters([
+       'userInfo'
+     ])
    },
    methods: {
+     //async 表示这是一个async函数，[await]只能用在这个函数里面!(配对出现)。
+     async uploadAvatar(){
+      if(this.userInfo){
+        let input = document.querySelector('.profileinfopanel-upload')
+        let data = new FormData();
+        //FormData 对象的使用
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/FormData/Using_FormData_Objects
+        data.append('file',input.files[0])
+        try{
+          let response = await fetch('/eus/v1/users/' + this.userInfo.user_id + '/avatar', {
+            method: 'POST',
+            credentials: 'include',
+            body: data
+          })
+          let res = await response.json();
+          if (res.status == 1) {
+            this.userInfo.avatar = res.image_path;
+          }
+        }catch (error){
+          this.$dialog.alert({mes: '上传失败'});
+          throw new Error(error);
+        }
+      }
+     },
      changePhone(){
        this.$dialog.alert({mes: '绑定手机'});
-     }
+     },
+     exitlogin(){
+       this.$dialog.confirm({
+         title: '退出登录',
+         mes: '确认退出吗？',
+         opts: () => {
+           this.that.outLogin();
+           this.$dialog.notify({
+             mes: '退出成功',
+             timeout:800,
+             callback: () => {
+               this.that.$router.go(-1);
+             }
+           });
+         }
+       })
+     },
+     async outLogin(){
+       this.OUT_LOGIN();
+       removeStore('user_id');
+       await signout();
+     },
+     ...mapMutations([
+       'OUT_LOGIN'
+     ]),
    },
    components:{
      headTop
@@ -86,9 +153,19 @@
   }
   .profile-info{
     .profileinfopanel-upload{
-      padding: 0.2rem 0;
-      border-radius: 50%;
-      @include wh(2.5rem,2.5rem);
+      display: block;
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      @include wh(100%,2rem);
+    }
+    .headportrait-div-top{
+      @include wh(2rem,2rem);
+      @include borderRadius(50%);
+      vertical-align:middle;
+      & .fa{
+        font-size: .8rem;
+      }
     }
     .headportrait{
       margin-top:.4rem;
@@ -112,11 +189,7 @@
             @include wh(100%,100%);
           }
         }
-        .headportrait-div-top{
-          @include wh(2rem,2rem);
-          @include borderRadius(50%);
-          vertical-align:middle;
-        }
+
         .headportrait-div-bottom{
           @include wh(.66667rem,1.4rem);
           position:relative;

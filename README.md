@@ -35,3 +35,6 @@ forget组件创建
 header:当切换或者刷新home页面，提交把用户信息存入vuex中
 从state读取用户信息（需优化，这里有异步操作）
 mutations暂时修改
+
+引入字体图标
+优化路由切换动画（info组件）

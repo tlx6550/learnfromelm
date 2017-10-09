@@ -22,6 +22,11 @@ const  matutaions = {
     }*/
     state.userInfo = info;
     state.login = true;
+  },
+  /*退出登录*/
+  [types.OUT_LOGIN](state){
+    state.userInfo = {}
+    state.login = false
   }
 }
 export default matutaions

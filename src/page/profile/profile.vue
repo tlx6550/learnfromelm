@@ -97,7 +97,7 @@
       </section>
       <section class="profile-1reTe">
         <!-- 服务中心 -->
-        <router-link to='/service' class="myorder">
+        <router-link to='/profile/service' class="myorder">
           <aside>
             <yd-icon name="question" size=".7rem" color="#16AA6B"></yd-icon>
           </aside>
@@ -164,6 +164,8 @@
           this.balance = this.userInfo.balance;
           this.count = this.userInfo.gift_amount;
           this.pointNumber = this.userInfo.point;
+        }else{
+          this.username = '登录/注册';
         }
       }
     },
