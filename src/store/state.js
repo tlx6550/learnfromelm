@@ -1,4 +1,5 @@
 const state = {
-  userInfo: null, //用户信息
+  userInfo: null,
+  geohash: 'wtw3sm0q087',
 }
 export default state

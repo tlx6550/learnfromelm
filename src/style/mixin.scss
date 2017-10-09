@@ -2,8 +2,15 @@ $blue: #3190e8;
 $bc: #e4e4e4;
 $fc:#fff;
 $bg: rgba(0, 0, 0, 0.09);
+$icon:rgba(0, 0, 0, 0.4);
 
+.slide-enter-active,.slide-leave-active{
+  transition :all 0.3s
+}
 
+.slide-enter,.slide-leave-to{
+  transform:translate3d(100%,0,0)
+}
 @mixin bis($url) {
   background-image: url($url);
   background-repeat: no-repeat;

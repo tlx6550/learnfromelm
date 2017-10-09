@@ -1,4 +1,5 @@
 <template>
+  <transition name="slide">
   <div class="restContainer">
     <head-top head-title="重置密码" :goBack=true></head-top>
     <form class="restForm">
@@ -32,6 +33,7 @@
       <yd-button size="large" type="primary">确认修改</yd-button>
     </div>
   </div>
+  </transition>
 </template>
 
 <script type="text/ecmascript-6">

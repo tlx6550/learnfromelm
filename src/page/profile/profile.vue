@@ -3,7 +3,7 @@
     <head-top :goBack=true :head-title="profiletitle"></head-top>
     <section class="wrapper">
       <section class="profile-number">
-       <!-- <span>{{userInfo}}</span>-->
+       <!--<span>{{userInfo}}</span>-->
         <router-link :to="userInfo&&userInfo.user_id ? '/profile/info':'/login'" class="profile-link">
           <img :src="imgBaseUrl" class="privateImage" v-if="userInfo&&userInfo.user_id" alt="">
           <span class="privateImage" v-else>
@@ -129,7 +129,8 @@
       </section>
     </section>
     <foot-guide></foot-guide>
-  </div>
+    <router-view></router-view>
+ </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -145,6 +146,7 @@
         balance: 0,            //我的余额
         count : 0,             //优惠券个数
         pointNumber : 0,       //积分数
+        avatar: '',             //头像地址
         imgBaseUrl:'http://img1.imgtn.bdimg.com/it/u=1762973822,121126736&fm=214&gp=0.jpg'
       }
     },
@@ -153,17 +155,31 @@
          'userInfo'
        ])
     },
+    methods:{
+      initData(){
+        if(this.userInfo && this.userInfo.user_id){
+          this.username = this.userInfo.username;
+          this.avatar = this.userInfo.avatar;
+          this.mobile = this.userInfo.mobile || '暂无绑定手机号';
+          this.balance = this.userInfo.balance;
+          this.count = this.userInfo.gift_amount;
+          this.pointNumber = this.userInfo.point;
+        }
+      }
+    },
     components:{
       headTop,
       footGuide
+    },
+    watch:{
+      userInfo: function (newV) {
+        this.initData()
+      }
     }
   }
 </script>
 <style scoped lang="scss">
   @import '../../style/mixin';
-  .wrapper{
-    background: $bg;
-  }
   .profile_page{
     padding-bottom: 1.95rem;
     p, span{
@@ -316,6 +332,7 @@
       border:0;
     }
   }
+
   .router-slid-enter-active, .router-slid-leave-active {
     transition: all .4s;
   }
