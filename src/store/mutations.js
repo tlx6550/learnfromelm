@@ -27,6 +27,10 @@ const  matutaions = {
   [types.OUT_LOGIN](state){
     state.userInfo = {}
     state.login = false
+  },
+  //修改用户名
+  [types.RETSET_NAME](state,username){
+    state.userInfo = Object.assign({},state.userInfo,{username})
   }
 }
 export default matutaions

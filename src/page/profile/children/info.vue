@@ -40,6 +40,7 @@
     <section class="section-btn">
       <yd-button size="large" type="danger" shape="circle"  @click.native="exitlogin">退出登录</yd-button>
     </section>
+    <router-view></router-view>
   </div>
   </transition>
 </template>
@@ -131,13 +132,6 @@
 </script>
 <style scoped lang="scss" rel="stylesheet/scss">
   @import '../../../style/mixin';
-  /*.slide-enter-active,.slide-leave-active{
-    transition :all 0.3s
-  }
-
-  .slide-enter,.slide-leave-to{
-    transform:translate3d(100%,0,0)
-  }*/
   .rating_page{
     position: absolute;
     top: 0;

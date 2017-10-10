@@ -6,6 +6,8 @@ const profile = r => require.ensure([], () => r(require('../page/profile/profile
 const info = r => require.ensure([], () => r(require('../page/profile/children/info')), 'info')
 const service = r => require.ensure([], () => r(require('../page/service/service')), 'service')
 const setusername = r => require.ensure([], () => r(require('../page/profile/children/setusername')), 'setusername')
+const address = r => require.ensure([], () => r(require('../page/profile/children/children/address')), 'address')
+const add = r => require.ensure([], () => r(require('../page/profile/children/children/children/add')), 'add')
 /*const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')*/
 // Vue.use(Router)
 
@@ -35,7 +37,15 @@ export default [{
       children:[
         {
         path:'info',
-        component: info
+        component: info,
+          children:[{
+            path:'address',
+            component:address,
+            children:[{
+              path:'add',
+              component:add
+            }]
+          } ]
         },
         {
           path:'setusername',

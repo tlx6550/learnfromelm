@@ -38,3 +38,5 @@ mutations暂时修改
 
 引入字体图标
 优化路由切换动画（info组件）
+
+info:体验异步的终极解决方案-ES7的Async/Await

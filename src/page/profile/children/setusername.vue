@@ -10,11 +10,12 @@
           </yd-cell-item>
           </yd-cell-group>
         <div>
-          <p v-if="earn">用户名只能修改一次（5-24字符之间）</p>
-          <p class="unlikep" v-if="!earn" >用户名长度在5到24位之间</p>
+          <p v-if="!earn">用户名只能修改一次（5-24字符之间）</p>
+          <p class="unlikep" v-if="earn" >用户名长度在5到24位之间</p>
         </div>
         <div class="btn">
-          <yd-button size="large" type="primary">提交</yd-button>
+          <button @click="comfirmResetName" class="yd-btn-block" :class="[!btnValid ? 'yd-btn-disabled':'yd-btn-primary']">确认修改</button>
+       <!--   <button disabled="disabled" class="yd-btn-block" :class="{'yd-btn-primary':btnValid,'yd-btn-disabled':!btnValid}">提交</button>-->
         </div>
       </section>
 
@@ -24,11 +25,13 @@
 
 <script type="text/ecmascript-6">
   import headTop from 'components/header/head'
+  import {mapMutations} from 'vuex'
   export default {
   data(){
   return{
     earn:true,
-    newUserName:''
+    newUserName:'',
+    btnValid:false
   }
    },
    created(){
@@ -38,18 +41,48 @@
    computed: {
    },
    methods: {
+     ...mapMutations([
+       'RETSET_NAME'
+     ]),
      resetName(){
        const input = this.$refs.newUserName;
-       const valid = `${input.valid}`;
+       //注意这个坑！const valid = `${input.valid}`，得到的是一个字符串变量而不是布尔值
+       const valid = input.valid;
        if(valid){
          this.earn = false;
+         this.btnValid = true;
        }else{
+         this.btnValid = false;
          this.earn = true;
+       }
+     },
+     comfirmResetName(){
+       if(this.btnValid){
+         this.RETSET_NAME(this.newUserName);
+         this.$dialog.toast({
+           mes: '修改成功',
+           timeout: 300,
+           icon: 'success',
+           callback: () => {
+             this.$router.go(-1);
+           }
+         });
        }
      }
    },
    components:{
      headTop
+   },
+   watch:{
+/*     newUserName(newV){
+       const input = this.$refs.newUserName;
+       const valid = input.valid;
+       if(valid){
+         this.earn = false;
+       }else{
+         this.earn = true;
+       }
+     }*/
    }
   }
 </script>
