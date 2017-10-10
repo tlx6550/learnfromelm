@@ -3,6 +3,20 @@
     <div class="rating_page">
       <head-top head-title="编辑地址" :go-back='true'></head-top>
       <section class="address">
+        <ul class="addresslist">
+          <li v-for="(item,index) in removeAddress">
+            <div>
+              <p>{{item.address}}</p>
+              <p>
+                <span>{{item.phone}}</span>
+                <span v-if="item.phonepk">、{{item.phonepk}}</span>
+              </p>
+            </div>
+            <div class="deletesite" v-if="deletesite">
+              <span @click="deleteSite(index,item)"></span>
+            </div>
+          </li>
+        </ul>
         <yd-cell-group>
           <yd-cell-item arrow type="link" href="/profile/info/address/add">
             <span slot="left">新增地址</span>
@@ -17,7 +31,7 @@
 
 <script type="text/ecmascript-6">
   import headTop from 'components/header/head'
-  import {mapMutations} from 'vuex'
+  import {mapGetters,mapMutations} from 'vuex'
   export default {
     data(){
       return{
@@ -31,6 +45,9 @@
     mounted(){
     },
     computed: {
+      ...mapGetters([
+        'userInfo','removeAddress'
+      ]),
     },
     methods: {
       ...mapMutations([
@@ -93,5 +110,61 @@
   .address{
     width:100%;
     margin:0.5rem auto;
+  }
+  .edit{
+    right: 0.4rem;
+    @include sc(0.7rem, #fff);
+    @include ct;
+  }
+  .address{
+    width:100%;
+    margin-top:.4rem;
+    border-top:1px solid #d9d9d9;
+    border-bottom:1px solid #d9d9d9;
+    .addresslist{
+      background:#fff;
+      li{
+        border-bottom:1px solid #d9d9d9;
+        padding:.4rem;
+        @include fj(space-between);
+        p{
+          line-height:.9rem;
+          @include sc(.6rem,#333);
+          span{
+            display:inline-block;
+            @include sc(.6rem,#333);
+          }
+        }
+        .deletesite{
+          display:flex;
+          align-items:center;
+          span{
+            display:block;
+            @include sc(.8rem,#999)
+          }
+        }
+      }
+      li:nth-of-type(1){
+        background:#FFF8C3;
+      }
+    }
+    .addsite{
+      margin-top:.4rem;
+      background:#fff;
+      padding:.2rem .4rem;
+      border-top:1px solid #d9d9d9;
+      @include fj(space-between);
+      span{
+        display:block;
+        @include sc(.7rem,#333);
+        line-height:1.4rem;
+      }
+      .addsvg{
+        @include wh(.66667rem,1.4rem);
+        svg{
+          @include wh(100%,100%);
+        }
+      }
+    }
   }
 </style>

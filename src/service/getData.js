@@ -66,3 +66,27 @@ export const changePassword = (username, oldpassWord, newpassword, confirmpasswo
  * 退出登录
  */
 export const signout = () => fetch('/v2/signout');
+/**
+ * 添加地址
+ */
+
+export const postAddAddress = (userId, address, address_detail, geohash, name, phone, phone_bk, poi_type, sex, tag, tag_type) => fetch('/v1/users/' + userId + '/addresses', {
+  address,
+  address_detail,
+  geohash,
+  name,
+  phone,
+  phone_bk,
+  poi_type,
+  sex,
+  tag,
+  tag_type,
+}, 'POST');
+/**
+ * 搜索地址
+ */
+
+export const searchNearby = keyword => fetch('/v1/pois', {
+  type: 'nearby',
+  keyword
+});
