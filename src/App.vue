@@ -3,12 +3,12 @@
 <!--    <keep-alive>
       <router-view></router-view>
     </keep-alive>-->
-    <transition name="router-fade" mode="out-in">
+    <transition name="slide" mode="out-in">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
     </transition>
-    <transition name="router-fade" mode="out-in">
+    <transition name="slide" mode="out-in">
       <router-view v-if="!$route.meta.keepAlive"></router-view>
     </transition>
     <svg-icon></svg-icon>
@@ -28,10 +28,11 @@
 
 <style lang="scss">
   @import './style/common';
-  .router-fade-enter-active, .router-fade-leave-active {
-    transition: opacity .3s;
+  .slide-enter-active,.slide-leave-active{
+    transition :all 0.3s
   }
-  .router-fade-enter, .router-fade-leave-active {
-    opacity: 0;
+
+  .slide-enter,.slide-leave-to{
+    transform:translate3d(0,-100%,0)
   }
 </style>

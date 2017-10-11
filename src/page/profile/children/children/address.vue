@@ -3,19 +3,19 @@
     <div class="rating_page">
       <span slot="edit" class="edit" @click="editAddress">{{editTitle}}</span>
       <head-top head-title="编辑地址" :go-back='true'></head-top>
-      <p>{{removeAddress}}</p>
+      <!--<p>{{removeAddress}}</p>-->
       <section class="address">
         <ul class="addresslist">
           <li v-for="(item,index) in addressList">
             <div>
-              <p>{{item.address}}</p>
+              <p><span class="badge"><yd-badge>{{index}}</yd-badge></span>{{item.address}}</p>
               <p>
                 <span>{{item.phone}}</span>
                 <span v-if="item.phonepk">、{{item.phonepk}}</span>
               </p>
             </div>
             <div class="deletesite" v-if="deletesite">
-              <span @click.stop="deleteSite(item,index)">x</span>
+              <span @click.stop="deleteSite(item,index)"><yd-icon size=".8rem" color="#FF685D" name="error"></yd-icon></span>
             </div>
           </li>
         </ul>
@@ -72,17 +72,18 @@
       },
       initData(){
         if(this.userInfo && this.userInfo.user_id){
-          this.$dialog.toast({
-            mes: '初始化完成',
-            timeout: 1000,
-            icon: 'success',
-          });
          this.saveAddress();
          this.addressList = this.removeAddress;
         }
       },
+      fetchData(){
+        //从state取数有延迟
+        setTimeout(()=>{
+          this.reloadAddrees();
+        },300)
 
-      editAddress() {
+      },
+        editAddress() {
         if(this.btnValid){
           this.editTitle = '完成';
           this.deletesite = true;
@@ -105,7 +106,6 @@
            removeList.splice(index,1);
            this.DELETEREMOVEADDRESS(removeList);
            this.$nextTick(() => {
-             //let newaddress =  getAddressList(this.userInfo.user_id);
              this.addressList= removeList;
            })
 
@@ -134,7 +134,8 @@
         if(newV && newV.user_id){
           this.initData();
         }
-      }
+      },
+      '$route': 'fetchData'
     }
   }
 </script>
@@ -172,12 +173,19 @@
         border-bottom:1px solid #d9d9d9;
         padding:.4rem;
         @include fj(space-between);
+
         p{
           line-height:.9rem;
           @include sc(.6rem,#333);
           span{
             display:inline-block;
             @include sc(.6rem,#333);
+          }
+          .badge{
+            margin-right: 5px;
+            & span{
+              color:$fc ;
+            }
           }
         }
         .deletesite{

@@ -38,7 +38,7 @@
 <script type="text/ecmascript-6">
   import headTop from 'components/header/head'
   import {postAddAddress,getAddressList} from 'src/service/getData'
-  import {mapGetters,mapActions} from 'vuex'
+  import {mapGetters,mapActions,mapMutations} from 'vuex'
   export default {
     data(){
       return{
@@ -67,6 +67,9 @@
       ...mapActions([
         'addRemoveAddres'
       ]),
+      ...mapMutations([
+        'ADD_ADDRESS'
+      ]),
       checkInput(){
         const message =  this.$refs.message;
         const refaddAddress = this.$refs.refaddAddress;
@@ -77,7 +80,6 @@
       },
       async getAddress(){
         let res = await getAddressList(this.userInfo.user_id);
-        console.log('res='+JSON.stringify(res))
         return res;
       },
       async  myAdd(){
@@ -88,12 +90,12 @@
               mes: '新增成功',
               timeout: 300,
               icon: 'success',
+              // 请求的地址是个异步过程，而且这里一定要把结果提交给state状态
               callback: () => {
-                 const add =this.getAddress()
-                console.log('add')
-                console.log('add='+JSON.stringify(add))
-               /* this.addRemoveAddres(add);
-                this.$router.go(-1);*/
+                 this.getAddress().then((res)=>{
+                  this.ADD_ADDRESS(res)
+                 });
+                this.$router.go(-1);
               }
             });
           }else{
