@@ -89,7 +89,7 @@
               timeout: 300,
               icon: 'success',
               callback: () => {
-                const add = this.getAddress()
+                 const add =this.getAddress()
                 console.log('add')
                 console.log('add='+JSON.stringify(add))
                /* this.addRemoveAddres(add);
