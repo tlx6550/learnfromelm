@@ -90,3 +90,11 @@ export const searchNearby = keyword => fetch('/v1/pois', {
   type: 'nearby',
   keyword
 });
+/**
+ *个人中心里编辑地址
+ */
+export const getAddressList = (user_id) =>fetch('/v1/users/'+user_id+'/addresses')
+/**
+ * 删除地址
+ */
+export const deleteAddress = (userid,addressid) =>fetch( '/v1/users/' + userid + '/addresses/' + addressid, {}, 'DELETE')

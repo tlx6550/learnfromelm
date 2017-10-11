@@ -40,3 +40,11 @@ mutations暂时修改
 优化路由切换动画（info组件）
 
 info:体验异步的终极解决方案-ES7的Async/Await
+
+进一步理解vue生命周期钩子函数
+https://segmentfault.com/a/1190000008010666#articleHeader7
+address组件，当已经加载过地址数据，当重新刷新dom 获取数据需要在这里执行！
+数组的操作方法
+ //数组在后加slice创建 其副本，解决Do not mutate vuex store state outside mutation handlers（需要在mutation的回调函数中修改！）
+ 当数组执行删除操作arry.splice(index,1)，其本身就返回操作后的结果了！
+ 也千万不要removeList=removeList.splice(index,1)

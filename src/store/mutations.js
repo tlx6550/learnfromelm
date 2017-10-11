@@ -33,12 +33,18 @@ const  matutaions = {
     state.userInfo = Object.assign({},state.userInfo,{username})
   },
   //增加地址
-  [types.ADD_ADDRESS](state,obj){
-    state.removeAddress = [obj,...state.removeAddress]
+  [types.ADD_ADDRESS](state,list){
+    state.removeAddress = list
   },
   //通过搜索，添加地址
   [types.SAVE_ADDDETAIL](state,addAddress){
     state.addAddress=addAddress;
+  },
+  [types.SAVE_ADDRESS](state,address){
+    state.removeAddress = address;
+  },
+  [types.DELETEREMOVEADDRESS](state,list){
+    state.removeAddress = list;
   }
 }
 export default matutaions

@@ -1,10 +1,12 @@
 <template>
   <transition name="slide">
     <div class="rating_page">
+      <span slot="edit" class="edit" @click="editAddress">{{editTitle}}</span>
       <head-top head-title="编辑地址" :go-back='true'></head-top>
+      <p>{{removeAddress}}</p>
       <section class="address">
         <ul class="addresslist">
-          <li v-for="(item,index) in removeAddress">
+          <li v-for="(item,index) in addressList">
             <div>
               <p>{{item.address}}</p>
               <p>
@@ -13,7 +15,7 @@
               </p>
             </div>
             <div class="deletesite" v-if="deletesite">
-              <span @click="deleteSite(index,item)"></span>
+              <span @click.stop="deleteSite(item,index)">x</span>
             </div>
           </li>
         </ul>
@@ -31,16 +33,25 @@
 
 <script type="text/ecmascript-6">
   import headTop from 'components/header/head'
-  import {mapGetters,mapMutations} from 'vuex'
+  import {mapGetters,mapMutations,mapActions} from 'vuex'
+  import {deleteAddress,getAddressList} from 'src/service/getData'
   export default {
     data(){
       return{
         earn:true,
         newUserName:'',
-        btnValid:false
+        btnValid:true,
+        editTitle:'编辑',
+        deletesite:false,
+        addressList:''
       }
     },
     created(){
+      //假如刷新页面（观察用户数据的watch函数将失效（没有变化）），而这里从服务器拿地址数据存在延迟，
+      //会导致vuex里面取得地址数据了，而页面依赖其数据还没更新渲染
+      setTimeout(()=>{
+        this.reloadAddrees();
+      },1000)
     },
     mounted(){
     },
@@ -50,48 +61,80 @@
       ]),
     },
     methods: {
-      ...mapMutations([
-        'RETSET_NAME'
+      ...mapActions([
+        'saveAddress','deleteRemoveAddress'
       ]),
-      resetName(){
-        const input = this.$refs.newUserName;
-        //注意这个坑！const valid = `${input.valid}`，得到的是一个字符串变量而不是布尔值
-        const valid = input.valid;
-        if(valid){
-          this.earn = false;
-          this.btnValid = true;
-        }else{
-          this.btnValid = false;
-          this.earn = true;
+      ...mapMutations([
+        'DELETEREMOVEADDRESS'
+      ]),
+      reloadAddrees(){
+        this.addressList = this.removeAddress;
+      },
+      initData(){
+        if(this.userInfo && this.userInfo.user_id){
+          this.$dialog.toast({
+            mes: '初始化完成',
+            timeout: 1000,
+            icon: 'success',
+          });
+         this.saveAddress();
+         this.addressList = this.removeAddress;
         }
       },
-      comfirmResetName(){
+
+      editAddress() {
         if(this.btnValid){
-          this.RETSET_NAME(this.newUserName);
-          this.$dialog.toast({
-            mes: '修改成功',
-            timeout: 300,
-            icon: 'success',
-            callback: () => {
-              this.$router.go(-1);
-            }
-          });
+          this.editTitle = '完成';
+          this.deletesite = true;
+          this.btnValid = !this.btnValid;
+        }else{
+          this.editTitle = '编辑';
+          this.deletesite = false;
+          this.btnValid = !this.btnValid;
         }
+
+      },
+     async deleteSite(item,index){
+       //在后加slice创建 其副本，解决Do not mutate vuex store state outside mutation handlers（需要在mutation的回调函数中修改！）
+       let removeList = this.removeAddress.slice();
+      if (this.userInfo && this.userInfo.user_id) {
+         // 不要把把操作业务的逻辑放进action中
+         let res = await deleteAddress(this.userInfo.user_id,item.id)
+         if(res.status===1){
+           //this.removeAddress.splice(index,1),这样会改变原来的数组，也千万不要removeList=removeList.splice(index,1)
+           removeList.splice(index,1);
+           this.DELETEREMOVEADDRESS(removeList);
+           this.$nextTick(() => {
+             //let newaddress =  getAddressList(this.userInfo.user_id);
+             this.addressList= removeList;
+           })
+
+           this.$dialog.toast({
+             mes: res.success,
+             timeout: 500,
+             icon: 'success',
+           });
+         }else{
+           this.$dialog.toast({
+             mes: '删除失败！',
+             timeout: 500,
+             icon: 'error'
+           });
+         }
+       }
+
       }
     },
     components:{
       headTop
     },
     watch:{
-      /*     newUserName(newV){
-             const input = this.$refs.newUserName;
-             const valid = input.valid;
-             if(valid){
-               this.earn = false;
-             }else{
-               this.earn = true;
-             }
-           }*/
+      // 初次加载时候
+      userInfo:function (newV) {
+        if(newV && newV.user_id){
+          this.initData();
+        }
+      }
     }
   }
 </script>
@@ -112,9 +155,11 @@
     margin:0.5rem auto;
   }
   .edit{
+    position: absolute;
+    top:0.4rem;
     right: 0.4rem;
+    z-index: 101;
     @include sc(0.7rem, #fff);
-    @include ct;
   }
   .address{
     width:100%;

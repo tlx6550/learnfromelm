@@ -37,7 +37,7 @@
     data(){
       return{
         warning:true,
-        inputAdress:'',
+        inputAdress:'岗地拿个',
         adressList:[],
       }
     },

@@ -30,30 +30,28 @@
        <!-- <button  @click.native="aa" class="yd-btn-block" :class="[!checkF ? 'yd-btn-disabled':'yd-btn-primary']">新增地址</button>-->
         <yd-button size="large" @click.native="myAdd" type="primary">新增地址</yd-button>
       </div>
-      <keep-alive>
         <router-view></router-view>
-      </keep-alive>
-      <
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
   import headTop from 'components/header/head'
-  import {postAddAddress} from 'src/service/getData'
-  import {mapGetters,mapMutations} from 'vuex'
+  import {postAddAddress,getAddressList} from 'src/service/getData'
+  import {mapGetters,mapActions} from 'vuex'
   export default {
     data(){
       return{
-        sendaddress:'',  //地址
-        message:'', //信息
-        mesthree:'', //送餐地址
-        telenum:'', //手机号
-        telephone:'', //手机号提示
+        sendaddress:'华师啊',  //地址
+        message:'lailai', //信息
+        mesthree:'华师啊华师啊', //送餐地址
+        telenum:'13417586550', //手机号
+        telephone:'13417586550', //手机号提示
         standbytele:'', //备用手机号提示
         standbytelenum:'', //备用手机号
         addSearch:false, //添加搜索地址
         checkF:false,
+        addAddress:'华师地区'
       }
     },
     created(){
@@ -62,12 +60,12 @@
     },
     computed: {
       ...mapGetters([
-        'userInfo', 'addAddress','removeAddress','newAddress', 'geohash'
+        'userInfo', 'removeAddress','newAddress', 'geohash'
       ])
     },
     methods: {
-      ...mapMutations([
-        'ADD_ADDRESS'
+      ...mapActions([
+        'addRemoveAddres'
       ]),
       checkInput(){
         const message =  this.$refs.message;
@@ -76,6 +74,11 @@
         const telenum =  this.$refs.telenum;
         const checkFlag = message.valid && refaddAddress.valid && mesthree.valid && telenum.valid;
         return checkFlag;
+      },
+      async getAddress(){
+        let res = await getAddressList(this.userInfo.user_id);
+        console.log('res='+JSON.stringify(res))
+        return res;
       },
       async  myAdd(){
         if(this.checkInput()){
@@ -86,17 +89,11 @@
               timeout: 300,
               icon: 'success',
               callback: () => {
-                this.ADD_ADDRESS({
-                  name: this.message,
-                  address: this.mesthree,
-                  address_detail: this.addAddress,
-                  geohash: 'wtw37r7cxep4',
-                  phone: this.telenum,
-                  phone_bk: this.standbytelenum,
-                  poi: this.addAddress,
-                  poi_type: 0,
-                });
-                this.$router.go(-1);
+                const add = this.getAddress()
+                console.log('add')
+                console.log('add='+JSON.stringify(add))
+               /* this.addRemoveAddres(add);
+                this.$router.go(-1);*/
               }
             });
           }else{
