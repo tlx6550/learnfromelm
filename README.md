@@ -48,3 +48,10 @@ address组件，当已经加载过地址数据，当重新刷新dom 获取数据
  //数组在后加slice创建 其副本，解决Do not mutate vuex store state outside mutation handlers（需要在mutation的回调函数中修改！）
  当数组执行删除操作arry.splice(index,1)，其本身就返回操作后的结果了！
  也千万不要removeList=removeList.splice(index,1)
+
+ add组件：使用async await组合解决异步读取数据问题，返回结果是promise对象，可以通过then()来获取返回数据
+
+ address组件：添加$route钩子函数，当路由发生变化时候执行
+ App组件，修改路由切换动画效果
+ 根据路由动态改变过渡动画
+ https://github.com/vuejs/vue-router/blob/next/examples/transitions/app.js
